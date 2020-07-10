@@ -1,0 +1,605 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Account Manager",
+    "description": "API to manage banking accounts",
+    "contact": {
+      "name": "André Matecki",
+      "email": "andre@matecki.com.br"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/accounts": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create a new account",
+        "description": "If owner does not exist will be created a new one",
+        "requestBody": {
+          "description": "Account payload",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreationRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountCreationResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountCreationResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountCreationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account properties are not setted corretly",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/withdraw": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Withdraws from the account",
+        "requestBody": {
+          "description": "Operations payload",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Withdraw done",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account Number and transaction value must be positive <br />\r\nAccount Number not found <br />\r\nAccount is blocked <br />\r\nAccount withdraw limit exceeded <br />\r\nAccount does not have balance enough <br />",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/deposit": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Deposits to the account",
+        "requestBody": {
+          "description": "Operations payload",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionOperationsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deposit done",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account Number and transaction value must be positive <br />\r\nAccount Number not found <br />\r\nAccount is blocked <br />",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/balance/{accountNumber}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Account balance",
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "description": "Account number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Account number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance consulted",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOperationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account is blocked",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/blockAccount/{accountNumber}": {
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Block the account",
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "description": "Account number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Account number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account has been blocked <br />\r\nAccount is already blocked",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account Number not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/statement": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Consult account statement",
+        "requestBody": {
+          "description": "Statement filters",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Statement consulted",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Account Number not found <br />\r\nAccount is blocked",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountCreationRequest": {
+        "required": [
+          "Owner",
+          "Type",
+          "WithdrawLimit"
+        ],
+        "type": "object",
+        "properties": {
+          "Owner": {
+            "type": "string"
+          },
+          "WithdrawLimit": {
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          },
+          "Type": {
+            "pattern": "CHECKING|SAVINGS",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountCreationResponse": {
+        "type": "object",
+        "properties": {
+          "AccountNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "OwnerNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Owner": {
+            "type": "string",
+            "nullable": true
+          },
+          "WithdrawLimit": {
+            "type": "number",
+            "format": "double"
+          },
+          "Active": {
+            "type": "boolean"
+          },
+          "Type": {
+            "type": "string",
+            "nullable": true
+          },
+          "CreationDate": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "Message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionOperationsRequest": {
+        "type": "object",
+        "properties": {
+          "AccountNumber": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "Value": {
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountOperationsResponse": {
+        "type": "object",
+        "properties": {
+          "AccountNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Balance": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementRequest": {
+        "required": [
+          "AccountNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "AccountNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "InitialDate": {
+            "type": "string",
+            "description": "To consult a full statement must be null",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2020-07-01T00:00:00.0000000"
+          },
+          "EndDate": {
+            "type": "string",
+            "description": "To consult a full statement must be null",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2020-07-20T00:00:00.0000000"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementItemResponse": {
+        "type": "object",
+        "properties": {
+          "TransactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementResponse": {
+        "type": "object",
+        "properties": {
+          "AccountNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatementItemResponse"
+            },
+            "nullable": true
+          },
+          "Balance": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
