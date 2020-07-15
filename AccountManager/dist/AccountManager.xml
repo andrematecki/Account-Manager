@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AccountManager</name>
+    </assembly>
+    <members>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.CreateAccount(AccountManager._1._Presentation.RequestModel.AccountCreationRequest)">
+            <summary>
+            Create a new account
+            </summary>
+            <remarks>
+            If owner does not exist will be created a new one
+            </remarks>
+            <param name="account">Account payload</param>
+            <returns></returns>
+            <response code="200">Account created</response>
+            <response code="400">Account properties are not setted corretly</response>
+        </member>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.Withdraw(AccountManager._1._Presentation.RequestModel.TransactionOperationsRequest)">
+            <summary>
+            Withdraws from the account
+            </summary>
+            <param name="withdraw">Operations payload</param>
+            <returns></returns>
+            <response code="200">Withdraw done</response>
+            <response code="400">
+            Account Number and transaction value must be positive <br />
+            Account Number not found <br />
+            Account is blocked <br />
+            Account withdraw limit exceeded <br />
+            Account does not have balance enough <br />
+            </response>
+        </member>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.Deposit(AccountManager._1._Presentation.RequestModel.TransactionOperationsRequest)">
+            <summary>
+            Deposits to the account
+            </summary>
+            <param name="withdraw">Operations payload</param>
+            <returns></returns>
+            <response code="200">Deposit done</response>
+            <response code="400">
+            Account Number and transaction value must be positive <br />
+            Account Number not found <br />
+            Account is blocked <br />
+            </response>
+        </member>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.Balace(System.Int32)">
+            <summary>
+            Account balance
+            </summary>
+            <param name="accountNumber">Account number</param>
+            <returns></returns>
+            <response code="200">Balance consulted</response>
+            <response code="400">Account is blocked</response>
+        </member>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.BlockAccount(System.Int32)">
+            <summary>
+            Block the account
+            </summary>
+            <param name="accountNumber">Account number</param>
+            <returns></returns>
+            <response code="200">
+            Account has been blocked <br/>
+            Account is already blocked
+            </response>
+            <response code="400">Account Number not found</response>
+        </member>
+        <member name="M:AccountManager._1._Presentation.Controllers.AccountsController.Statement(AccountManager._1._Presentation.RequestModel.StatementRequest)">
+            <summary>
+            Consult account statement
+            </summary>
+            <param name="statementRequest">Statement filters</param>
+            <returns></returns>
+            <response code="200">Statement consulted</response>
+            <response code="400">
+            Account Number not found <br />
+            Account is blocked
+            </response>
+        </member>
+        <member name="P:AccountManager._1._Presentation.RequestModel.StatementRequest.InitialDate">
+            <summary>
+            To consult a full statement must be null
+            </summary>
+            <example>2020-07-01</example>
+        </member>
+        <member name="P:AccountManager._1._Presentation.RequestModel.StatementRequest.EndDate">
+            <summary>
+            To consult a full statement must be null
+            </summary>
+            <example>2020-07-20</example>
+        </member>
+    </members>
+</doc>

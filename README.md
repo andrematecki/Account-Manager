@@ -22,3 +22,20 @@ A aplicação foi modelada com base em DDD (Domain-Driven Design). As principais
  ## Documentação da API
 
 Ao iniciar o projeto em ambiente de desenvolvimento (Visual Studio 2017 ou 2019) será aberto a documentação da API em Swagger. O arquivo Swagger também pode ser encontrado na raíz do repositório.
+
+
+ ## Execução da API (Docker)
+ 
+ Swagger ficará disponível em *localhost:local-port/swagger*
+ 
+ **Método 1 (local): ** criar imagem Docker e container. 
+ 
+  `docker build -t image-name:tag Dockerfile-location`
+  
+ `docker container run -d -p local-port:5050 image-name:tag`
+ 
+ **Método 2 (Docker hub):** realizar pull da imagem pronta e criar container Docker.
+ 
+` docker pull andrematecki/acc-man:2.0`
+ 
+ `docker container run -d -p local-port:5050 andrematecki/acc-man:2.0`
