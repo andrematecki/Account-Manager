@@ -28,7 +28,7 @@ Ao iniciar o projeto em ambiente de desenvolvimento (Visual Studio 2017 ou 2019)
  
  Swagger ficará disponível em *localhost:local-port/swagger*
  
- **Método 1 (local): ** criar imagem Docker e container. 
+ **Método 1 (local):** criar imagem Docker e container. 
  
   `docker build -t image-name:tag Dockerfile-location`
   
